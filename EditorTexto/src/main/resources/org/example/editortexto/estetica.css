@@ -1,0 +1,66 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap'); /* Importar fuente Pacifico */
+
+.root {
+    -fx-background-color: #e4a1a1; /* Color de fondo principal */
+}
+
+.button {
+    -fx-background-color: #b21bd3; /* Color de fondo de botones */
+    -fx-text-fill: #e4a1a1; /* Color de texto de botones */
+    -fx-font-weight: bold; /* Texto de botones en negrita */
+}
+
+.label {
+    -fx-font-size: 14px; /* Tamaño de fuente para etiquetas */
+}
+
+.title {
+    -fx-font-family: 'Pacifico', cursive; /* Fuente para el título */
+    -fx-font-size: 36px; /* Tamaño de fuente del título */
+    -fx-text-fill: #b21bd3; /* Color de texto del título */
+}
+
+.subtitle {
+    -fx-font-size: 18px; /* Tamaño de fuente del subtítulo */
+    -fx-text-fill: #be5ad1; /* Color de texto del subtítulo */
+}
+
+.emoji-box {
+    -fx-border-color: #b21bd3; /* Color del borde del cuadro de emojis */
+    -fx-border-width: 2px; /* Ancho del borde */
+    -fx-border-radius: 5px; /* Esquinas redondeadas */
+    -fx-padding: 10px; /* Relleno interior */
+}
+
+.emoji-title {
+    -fx-font-size: 16px; /* Tamaño de fuente para el título de emojis */
+    -fx-font-weight: bold; /* Texto en negrita */
+    -fx-text-fill: #bd1cd2; /* Color del texto */
+}
+
+#botonExportar{
+    -fx-background-color: #e45e37; /* Color para el botón de exportar */;
+}
+
+#botonAbrir{
+    -fx-background-color: #cf8a07; /* Color para el botón de abrir */;
+}
+
+#botonAtras{
+    -fx-background-color: #5eaa0d; /* Color para el botón de atras */;
+}
+
+#botonBorrar {
+    -fx-background-color: #1ea5b6; /* Color para el botón de borrar */
+}
+
+#botonCerrar {
+    -fx-background-color: #ea11e6; /* Color para el botón de cerrar */
+}
+
+
+
+.text-area.underlined .text {
+    -fx-underline: true; /* Activa el subrayado */
+}
