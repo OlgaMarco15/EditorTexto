@@ -177,7 +177,7 @@ public class controlador implements NuiListener{
     private void initializeVosk() {
         try {
             LibVosk.setLogLevel(LogLevel.WARNINGS);
-            URL resource = getClass().getResource("/org/example/editortexto/model/vosk-model-es-0.42");
+            URL resource = getClass().getResource("/org/example/editortexto/model/vosk-model-small-es-0.42");
             if (resource == null) {
                 System.err.println("No se pudo encontrar el recurso del modelo Vosk. La funcionalidad de voz no estará disponible.");
                 return;
@@ -236,6 +236,7 @@ public class controlador implements NuiListener{
 
                         if (recognizer.acceptWaveForm(buffer, bytesRead)) {
                             String resultJson = recognizer.getResult();
+                            System.out.println(resultJson);
                             String recognizedText = parseRecognizedText(resultJson, "text");
 
                             if (recognizedText != null && !recognizedText.isEmpty()) {
@@ -243,12 +244,13 @@ public class controlador implements NuiListener{
                             }
                         }
                     }
-                }
+                } // Recognizer se cierra automáticamente aquí
             } catch (Exception e) {
                 Platform.runLater(() -> {
                     System.err.println("CRÍTICO: Fallo al inicializar el micrófono. Es posible que no haya ningún micrófono disponible o que esté siendo usado por otra aplicación.");
                     e.printStackTrace();
                 });
+                return; // Ensure the thread terminates on microphone initialization failure
             } finally {
 
                 if (microphone != null && microphone.isOpen()) {
@@ -266,7 +268,7 @@ public class controlador implements NuiListener{
     private String parseRecognizedText(String json, String key) {
         // Usar una expresión regular para ser flexible con los espacios en el JSON.
         // Busca patrones como: "key" : "value"
-        Pattern pattern = Pattern.compile("\"" + key + "\"\\s*:\\s*\"(.*?)\"");
+        Pattern pattern = Pattern.compile("\"" + key + "\"\s*:\s*\"(.*?)\"");
         Matcher matcher = pattern.matcher(json);
 
         if (matcher.find()) {
@@ -322,7 +324,6 @@ private void processVoiceCommand(String commandText) {
 
     NuiController.procesarComando(command, texto);
 }
-
 
 
 
@@ -651,8 +652,8 @@ private void processVoiceCommand(String commandText) {
         StringBuilder newTextBuilder = new StringBuilder();
         for (char c : textoOriginal.toCharArray()) {
             String charStr = String.valueOf(c);
-            if ("aeiouAEIOU".contains(charStr)) { newTextBuilder.append(vowelEmoji);
-            } else if ("bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ".contains(charStr)) { newTextBuilder.append(consonantEmoji);
+            if ("aeiouAEIOU".contains(charStr)) { newTextBuilder.append(vowelEmoji); 
+            } else if ("bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ".contains(charStr)) { newTextBuilder.append(consonantEmoji); 
             } else { newTextBuilder.append(c); }
         }
         textFlow.getChildren().clear();
@@ -793,7 +794,7 @@ private void processVoiceCommand(String commandText) {
     private void procesarEstilosNegritaCursiva(String texto, boolean esSubrayado) {
         // Patrón para identificar negrita-cursiva (***), negrita (**), y cursiva (*).
         // El orden es importante para que no confunda *** con ** o *.
-        final Pattern patronEstilos = Pattern.compile("(\\*\\*\\*(.*?)\\*\\*\\*)|(\\*\\*(.*?)\\*\\*)|(\\*([^*]+?)\\*)");
+                final Pattern patronEstilos = Pattern.compile("(\\*\\*\\*(.*?)\\*\\*\\*)|(\\*\\*(.*?)\\*\\*)|(\\*([^*]+?)\\*)");
         Matcher matcherEstilos = patronEstilos.matcher(texto);
         int ultimaPosicion = 0; // Rastrea la posición en el fragmento de texto actual.
 
