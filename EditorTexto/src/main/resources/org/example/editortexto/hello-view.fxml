@@ -20,21 +20,21 @@
    <Label prefHeight="13.0" prefWidth="149.0" styleClass="subtitle" text="Olga Marco DAM1" />
    <HBox alignment="CENTER" prefHeight="26.0" prefWidth="462.0" spacing="5.0">
       <children>
-         <Button fx:id="botonNegrita" mnemonicParsing="false" onAction="#ponerQuitarNegrita" text="B">
+         <Button fx:id="botonNegrita" mnemonicParsing="false" onAction="#ponerQuitarNegrita" text="B" accessibleText="Negrita">
             <tooltip>
                <Tooltip text="Negrita" />
             </tooltip></Button>
-         <Button fx:id="botonCursiva" mnemonicParsing="false" onAction="#ponerQuitarCursiva" text="I">
+         <Button fx:id="botonCursiva" mnemonicParsing="false" onAction="#ponerQuitarCursiva" text="I" accessibleText="Cursiva">
             <tooltip>
                <Tooltip text="Cursiva" />
             </tooltip></Button>
-         <Button fx:id="botonSubrayado" mnemonicParsing="false" onAction="#ponerQuitarSubrayado" text="U">
+         <Button fx:id="botonSubrayado" mnemonicParsing="false" onAction="#ponerQuitarSubrayado" text="U" accessibleText="Subrayado">
             <tooltip>
                <Tooltip text="Subrayado" />
             </tooltip></Button>
-         <Button fx:id="botonMayusc" mnemonicParsing="false" onAction="#alternarMayusMinus" text="M/m">
+         <Button fx:id="botonMayusc" mnemonicParsing="false" onAction="#alternarMayusMinus" text="Mayús" accessibleText="Alternar Mayúsculas y Minúsculas">
             <tooltip>
-               <Tooltip text="Mayusc/Minusc" />
+               <Tooltip text="Alternar Mayúsculas y Minúsculas" />
             </tooltip></Button>
          <Button fx:id="botonInvertir" mnemonicParsing="false" onAction="#invertirTexto" text="Invertir">
             <tooltip>
@@ -56,9 +56,9 @@
          <Label fx:id="linesLabel" text="0" />
          <Label text="Caracteres:" />
          <Label fx:id="charsLabel" text="0" />
-         <Button fx:id="botonDictar" mnemonicParsing="false" onAction="#dictarTexto" text="Dictar">
+         <Button fx:id="botonDictar" mnemonicParsing="false" onAction="#dictarTexto" text="Dictar" accessibleText="Activar/Desactivar Dictado de Voz">
             <tooltip>
-               <Tooltip text="Invertir texto" />
+               <Tooltip text="Activar/Desactivar dictado. Comandos de voz: Negrita, Cursiva, Subrayado, Limpiar, Abrir, Guardar, Mayúscula, Minúscula, Invertir, Quitar espacios, Flores/Hojas, Agua/Fuego, Pulpo/Alien, Atrás, Cerrar." />
             </tooltip>
          </Button>
       </children>

@@ -136,7 +136,7 @@ public class controlador implements NuiListener{
 
     private boolean mayuscula = true;
 
-    private boolean dictar = false;
+    private volatile boolean dictar = false;
 
     // Lógica NUI
     private final NuiController nuiController = new NuiController();
@@ -151,15 +151,6 @@ public class controlador implements NuiListener{
     public void initialize() {
         nuiController.añadirNuiListener(this);
         // Evita que los botones roben el foco y se pierda la selección de texto.
-        botonNegrita.setFocusTraversable(false);
-        botonCursiva.setFocusTraversable(false);
-        botonSubrayado.setFocusTraversable(false);
-        botonMayusc.setFocusTraversable(false);
-        botonInvertir.setFocusTraversable(false);
-        botonQuitarEspacios.setFocusTraversable(false);
-        emojiOption1.setFocusTraversable(false);
-        emojiOption2.setFocusTraversable(false);
-        emojiOption3.setFocusTraversable(false);
 
         // Listener para la sincronización en tiempo real al escribir (solo si es el primer cambio).
         textArea.textProperty().addListener((obs, oldVal, newVal) -> {
@@ -217,34 +208,37 @@ public class controlador implements NuiListener{
                 microphone.open(audioFormat);
                 microphone.start();
 
-                try (Recognizer recognizer = new Recognizer(voskModel, 16000, grammar)) {
-                    byte[] buffer = new byte[4096];
-                    int bytesRead;
+                while (listening.get()) {
+                    boolean modoDictado = dictar;
+                    try (Recognizer recognizer = modoDictado ? new Recognizer(voskModel, 16000) : new Recognizer(voskModel, 16000, grammar)) {
+                        byte[] buffer = new byte[4096];
+                        int bytesRead;
 
-                    while (listening.get()) {
-                        try {
+                        while (listening.get() && dictar == modoDictado) {
+                            try {
 
-                            bytesRead = microphone.read(buffer, 0, buffer.length);
+                                bytesRead = microphone.read(buffer, 0, buffer.length);
 
-                        } catch (Exception readException) {
-                            break;
-                        }
+                            } catch (Exception readException) {
+                                break;
+                            }
 
-                        if (bytesRead < 0) {
-                            break;
-                        }
+                            if (bytesRead < 0) {
+                                break;
+                            }
 
-                        if (recognizer.acceptWaveForm(buffer, bytesRead)) {
-                            String resultJson = recognizer.getResult();
-                            System.out.println(resultJson);
-                            String recognizedText = parseRecognizedText(resultJson, "text");
+                            if (recognizer.acceptWaveForm(buffer, bytesRead)) {
+                                String resultJson = recognizer.getResult();
+                                System.out.println(resultJson);
+                                String recognizedText = parseRecognizedText(resultJson, "text");
 
-                            if (recognizedText != null && !recognizedText.isEmpty()) {
-                                processVoiceCommand(recognizedText);
+                                if (recognizedText != null && !recognizedText.isEmpty()) {
+                                    processVoiceCommand(recognizedText);
+                                }
                             }
                         }
                     }
-                } // Recognizer se cierra automáticamente aquí
+                }
             } catch (Exception e) {
                 Platform.runLater(() -> {
                     System.err.println("CRÍTICO: Fallo al inicializar el micrófono. Es posible que no haya ningún micrófono disponible o que esté siendo usado por otra aplicación.");

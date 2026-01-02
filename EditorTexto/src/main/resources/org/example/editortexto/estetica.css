@@ -64,3 +64,9 @@
 .text-area.underlined .text {
     -fx-underline: true; /* Activa el subrayado */
 }
+
+.button:focused {
+    -fx-border-color: #00BFFF; /* DeepSkyBlue */
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+}
